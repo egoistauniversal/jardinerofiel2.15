@@ -140,7 +140,8 @@ class ContextMenuOptions(QtCore.QObject):
         return {1: 'Temperatura (DS18B20)',
                 2: 'Temperatura y Humedad (DHT11)',
                 4: 'PH',
-                5: 'EC'}[option]
+                5: 'EC',
+                6: 'Luz'}[option]
 
     @staticmethod
     def get_sensor_type_name_options(option):
@@ -148,7 +149,8 @@ class ContextMenuOptions(QtCore.QObject):
                 2: 'Temperatura (DHT11)',
                 3: 'Humedad (DHT11)',
                 4: 'PH',
-                5: 'EC'}[option]
+                5: 'EC',
+                6: 'Luz'}[option]
 
     @staticmethod
     def get_control_context_menu_name_options(option):
@@ -168,7 +170,8 @@ class Icons(QtCore.QObject):
     @staticmethod
     def get_sensor_icon(value):
         _iconList = ['images/sensor/thermometer01.jpeg', 'images/sensor/thermometer02.png',
-                     'images/sensor/humidity.jpeg', 'images/sensor/ph.jpg', 'images/sensor/ec.jpeg']
+                     'images/sensor/humidity.jpeg', 'images/sensor/ph.jpg', 'images/sensor/ec.jpeg',
+                     'images/sensor/light.jpg']
         return QtGui.QIcon(_iconList[int(value)-1])
 
     @staticmethod

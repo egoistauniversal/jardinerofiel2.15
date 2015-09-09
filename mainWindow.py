@@ -208,7 +208,7 @@ class MainWindow(QtGui.QMainWindow):
                                                  'Estas seguro que quieres cerrar el programa?',
                                                  QtGui.QMessageBox.Yes | QtGui.QMessageBox.No, QtGui.QMessageBox.No)
             if reply == QtGui.QMessageBox.Yes:
-                self._mySerialUSB.close()
+                # self._mySerialUSB.close()
                 event.accept()
             else:
                 event.ignore()

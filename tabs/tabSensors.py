@@ -246,6 +246,9 @@ class TabSensors(QtGui.QWidget):
 
         _subMenuAnadir.addAction(_custom.get_sensor_context_menu_name_options(5),)
 
+        _subMenuAnadir.addAction(_custom.get_sensor_context_menu_name_options(6),
+                                 lambda: self._add_second_level_item(index, sensor_type='6'))
+
         _mainContextMenu = QtGui.QMenu()
         _mainContextMenu.addMenu(_subMenuAnadir)
         _mainContextMenu.addAction('Modificar', lambda: self._modify_first_level_item(index))
