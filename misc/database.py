@@ -693,6 +693,30 @@ class DataBase(QtCore.QObject):
             self.dbAlertMessageSignal.emit("Error %s:" % e.args[0])
         return _dataList
 
+    def data_table_select_data_time_by_days(self, sensor_id, days):
+        _i = 0
+        _xAxisList = []
+        _dataList = []
+        _timeList = []
+        _days_string = '-' + str(days) + ' days'
+        try:
+            connection = sqlite3.connect(str(self._dbFile.fileName()))
+            with connection:
+                cur = connection.cursor()
+                cur.execute("SELECT data.data, data.date_time FROM data "
+                            "WHERE data.sensor_id=? AND data.date_time >= datetime('now', ?)",
+                            (sensor_id, _days_string))
+                rows = cur.fetchall()
+                for row in rows:
+                    _i += 1
+                    _xAxisList.append(_i)
+                    _dataList.append(row[0])
+                    _timeList.append(row[1])
+        except sqlite3.Error, e:
+            self.dbAlertMessageSignal.emit("Error %s:" % e.args[0])
+        return _xAxisList, _dataList, _timeList
+
+    # TODO posiblemente borrar este metodo ya que no sirve para nada
     @staticmethod
     def _fill_up_data_list(data_list, limit):
         t = limit - len(data_list)
@@ -729,7 +753,7 @@ class DataBase(QtCore.QObject):
     def check_file_size(self):
         # print self._dbFile.size()
         # If database size reach a certain limit create a new database file, in this case is 100M
-        if self._dbFile.size() > 100000000:
+        if self._dbFile.size() > 20000000:
             self._dbFile.close()
             _auxFile = QtCore.QFile(self._directory.path() + self._fileName)
             _auxFileName = self._directory.path() + '/' + QtCore.QDate().currentDate().toString(

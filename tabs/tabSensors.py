@@ -217,9 +217,9 @@ class TabSensors(QtGui.QWidget):
     def _graph_sensor(self, index):
         _nameStr = index.parent().child(index.row(), 0).data(QtCore.Qt.DisplayRole).toString()
         _typeStr = index.model().itemFromIndex(index.parent().child(index.row(), 1)).get_tag()
-        value, ok = graphDialogBox.XAxisRangeDialogBox.get_data(1)
+        _days, ok = graphDialogBox.XAxisRangeDialogBox.get_data(1)
         if ok:
-            self._myGraphics.update_graphic(str(_nameStr), _typeStr)
+            self._myGraphics.update_graphic(str(_nameStr), _typeStr, _days)
             self._myGraphics.setGeometry(QtCore.QRect(100, 100, 400, 200))
             self._myGraphics.showMaximized()
 
