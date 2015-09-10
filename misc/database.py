@@ -660,6 +660,19 @@ class DataBase(QtCore.QObject):
             self.dbAlertMessageSignal.emit("Error %s:" % e.args[0])
         return _sensorIdList, _sensorNameList
 
+    def data_table_select_sensor_id(self, sensor_name, sensor_type):
+        _sensor_id = None
+        try:
+            connection = sqlite3.connect(str(self._dbFile.fileName()))
+            with connection:
+                cur = connection.cursor()
+                cur.execute("SELECT sensor.id FROM sensor "
+                            "WHERE sensor.name=? AND sensor.type=? AND sensor.enabled=1", (sensor_name, sensor_type))
+                _sensor_id = cur.fetchone()
+        except sqlite3.Error, e:
+            self.dbAlertMessageSignal.emit("Error %s:" % e.args[0])
+        return _sensor_id[0]
+
     def data_table_select_data(self, sensor_id, limit):
         _dataList = []
         try:

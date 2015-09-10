@@ -1,7 +1,7 @@
 from PyQt4 import QtGui
 from PyQt4 import QtCore
-from dialog import sensorDialogBox
-from misc import external, timeouts, custom
+from dialog import sensorDialogBox, graphDialogBox
+from misc import external, timeouts, custom, graphics
 import math
 
 
@@ -24,6 +24,7 @@ class TabSensors(QtGui.QWidget):
         self._model.appendRow(QtGui.QStandardItem('Sensores'))
         self._myTimeouts = timeouts.Sensors(self._model)
         self._threshold = None
+        self._myGraphics = graphics.Graphics(self._myDataBase)
         self._setup()
 
     def _setup(self):
@@ -211,6 +212,17 @@ class TabSensors(QtGui.QWidget):
             elif _type == '3':
                 index.model().itemFromIndex(index.parent().child(index.row() - 1, 10)).setCheckState(QtCore.Qt.Checked)
 
+    # --------------------------------------- Graphics---------------------------------------------
+
+    def _graph_sensor(self, index):
+        _nameStr = index.parent().child(index.row(), 0).data(QtCore.Qt.DisplayRole).toString()
+        _typeStr = index.model().itemFromIndex(index.parent().child(index.row(), 1)).get_tag()
+        value, ok = graphDialogBox.XAxisRangeDialogBox.get_data(1)
+        if ok:
+            self._myGraphics.update_graphic(str(_nameStr), _typeStr)
+            self._myGraphics.setGeometry(QtCore.QRect(100, 100, 400, 200))
+            self._myGraphics.showMaximized()
+
     # --------------------------------------- Context Menu---------------------------------------------
 
     def _open_context_menu(self, point):
@@ -257,6 +269,7 @@ class TabSensors(QtGui.QWidget):
 
     def _show_second_level_context_menu(self, point, index):
         _mainContextMenu = QtGui.QMenu()
+        _mainContextMenu.addAction('Grafico', lambda: self._graph_sensor(index))
         _mainContextMenu.addAction('Resetear Min y Max Fila', lambda: self._reset_single_row_min_max(index))
         _mainContextMenu.addAction('Resetear Fila', lambda: self._reset_single_row(index))
         _mainContextMenu.addSeparator()

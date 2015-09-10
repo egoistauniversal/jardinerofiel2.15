@@ -1,7 +1,8 @@
 from PyQt4 import QtGui, QtCore
+
 from dialog import configDialogBox
 from misc import browser, serialusb, database
-from tabs import tabComponents, tabSensors, tabGraphics, tabControls
+from tabs import tabComponents, tabSensors, tabControls
 from misc.files import Standard, Intervals, Pins
 
 
@@ -18,7 +19,6 @@ class MainWindow(QtGui.QMainWindow):
             self._myTabComponents = tabComponents.TabComponents(self._myDataBase, self._mySerialUSB)
             self._myTabSensors = tabSensors.TabSensors(self._myDataBase, self._mySerialUSB)
             self._myTabControl = tabControls.TabControl(self._myDataBase, self._mySerialUSB)
-            # self._myTabGraphics = tabGraphics.TabGraphics(self._myDataBase)
             self._statusBarTimer = QtCore.QTimer(self)
             self._statusBarTimeElapsed = QtCore.QTime()
             self._requestSensorDataFirstTime = QtCore.QTimer(self)
@@ -32,7 +32,6 @@ class MainWindow(QtGui.QMainWindow):
         self._myTabs.addTab(self._myTabComponents, 'Componentes')
         self._myTabs.addTab(self._myTabSensors, 'Sensores')
         self._myTabs.addTab(self._myTabControl, 'Controles')
-        # self._myTabs.addTab(self._myTabGraphics, 'Graficos')
         self._setup_user_interface()
         self._setup_menubar()
         self._setup_general_toolbar()
