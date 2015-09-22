@@ -8,7 +8,7 @@ import math
 class TabSensors(QtGui.QWidget):
     sensorUpdateControlNameSignal = QtCore.pyqtSignal(str, str, str)
     sensorRestartStatusBarTimeElapsed = QtCore.pyqtSignal()
-    sensorUpdateGraphicSignal = QtCore.pyqtSignal()
+    sensorSaveLastMinuteSignal = QtCore.pyqtSignal()
     sensorPrintNormalMessage = QtCore.pyqtSignal(str)
     sensorPrintAlertMessage = QtCore.pyqtSignal(str)
     controlUpdateSignal = QtCore.pyqtSignal(str, str, str)
@@ -56,7 +56,7 @@ class TabSensors(QtGui.QWidget):
     def _setup_connections(self):
         self._myTreeView.customContextMenuRequested.connect(self._open_context_menu)
         self._myTimeouts.timeoutSensorReadSignal.connect(self._serial_send_data)
-        self._myTimeouts.timeoutSensorUpdateGraphicSignal.connect(self._update_graphic)
+        self._myTimeouts.timeoutSensorSaveLastMinuteSignal.connect(self._save_last_minute)
         self._primaryTimer.timeout.connect(self.timeout_start_timer)
         self._secondaryTimer.timeout.connect(self._serial_get_data)
 
@@ -372,9 +372,10 @@ class TabSensors(QtGui.QWidget):
         x = _currentDatetime.toString("dd-MM-yyyy")
         parent.child(row, 8).setData(x, QtCore.Qt.DisplayRole)
 
-    def _update_graphic(self):
-        self.sensorUpdateGraphicSignal.emit()
+    def _save_last_minute(self):
+        self.sensorSaveLastMinuteSignal.emit()
         self._myDataBase.check_file_size()
+        # TODO activar este metodo para comprobar el tamano de la base de datos
 
     # -------------------------------------------------------------------------------------------------
 

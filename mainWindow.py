@@ -4,6 +4,7 @@ from dialog import configDialogBox
 from misc import browser, serialusb, database
 from tabs import tabComponents, tabSensors, tabControls
 from misc.files import Standard, Intervals, Pins
+from timecheck import lastminute
 
 
 class MainWindow(QtGui.QMainWindow):
@@ -19,6 +20,7 @@ class MainWindow(QtGui.QMainWindow):
             self._myTabComponents = tabComponents.TabComponents(self._myDataBase, self._mySerialUSB)
             self._myTabSensors = tabSensors.TabSensors(self._myDataBase, self._mySerialUSB)
             self._myTabControl = tabControls.TabControl(self._myDataBase, self._mySerialUSB)
+            self._myLastMinute = lastminute.LastTime()
             self._statusBarTimer = QtCore.QTimer(self)
             self._statusBarTimeElapsed = QtCore.QTime()
             self._requestSensorDataFirstTime = QtCore.QTimer(self)
@@ -48,6 +50,7 @@ class MainWindow(QtGui.QMainWindow):
         self._myTabSensors.sensorPrintAlertMessage.connect(self._print_alert_message)
         self._myTabSensors.controlUpdateSignal.connect(self._control_update_sensor)
         self._myTabSensors.sensorUpdateControlNameSignal.connect(self._control_update_name_sensors)
+        self._myTabSensors.sensorSaveLastMinuteSignal.connect(self._write_last_minute)
         self._myDataBase.dbNormalMessageSignal.connect(self._print_normal_message)
         self._myDataBase.dbAlertMessageSignal.connect(self._print_alert_message)
         self._statusBarTimer.timeout.connect(self._update_statusbar)
@@ -211,3 +214,6 @@ class MainWindow(QtGui.QMainWindow):
                 event.accept()
             else:
                 event.ignore()
+
+    def _write_last_minute(self):
+        self._myLastMinute.write()

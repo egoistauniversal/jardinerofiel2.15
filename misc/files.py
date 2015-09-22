@@ -18,8 +18,6 @@ class Log(QtCore.QObject):
         if _currentDate.getDate() != self._previousDate.getDate():
             self._file.close()
             self._previousDate.setDate(_currentDate.year(), _currentDate.month(), _currentDate.day())
-            # self._file = QtCore.QFile(self._directory.path() + '/' +
-            #                           self._previousDate.toString('yyyy-MM-dd') + '_log.txt')
 
         if not self._file.open(QtCore.QIODevice.Append | QtCore.QFile.Text):
             QtGui.QMessageBox().warning(self, 'Fichero', 'No se puede crear el fichero %s:\n%s' %

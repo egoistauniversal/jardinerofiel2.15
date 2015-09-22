@@ -4,7 +4,7 @@ import operator
 
 class Sensors(QtCore.QObject):
     timeoutSensorReadSignal = QtCore.pyqtSignal(str, str)
-    timeoutSensorUpdateGraphicSignal = QtCore.pyqtSignal()
+    timeoutSensorSaveLastMinuteSignal = QtCore.pyqtSignal()
 
     def __init__(self, model):
         QtCore.QObject.__init__(self)
@@ -46,7 +46,7 @@ class Sensors(QtCore.QObject):
             self._timer.stop()
             self._childRow = -1
             self._groupRow = 0
-            # self.timeoutSensorUpdateGraphicSignal.emit()
+            self.timeoutSensorSaveLastMinuteSignal.emit()
 
     def get_parent(self):
         return self._groupItem

@@ -716,6 +716,8 @@ class DataBase(QtCore.QObject):
             self.dbAlertMessageSignal.emit("Error %s:" % e.args[0])
         return _xAxisList, _dataList, _timeList
 
+
+
     # TODO posiblemente borrar este metodo ya que no sirve para nada
     @staticmethod
     def _fill_up_data_list(data_list, limit):
@@ -753,7 +755,7 @@ class DataBase(QtCore.QObject):
     def check_file_size(self):
         # print self._dbFile.size()
         # If database size reach a certain limit create a new database file, in this case is 100M
-        if self._dbFile.size() > 20000000:
+        if self._dbFile.size() > 100000:
             self._dbFile.close()
             _auxFile = QtCore.QFile(self._directory.path() + self._fileName)
             _auxFileName = self._directory.path() + '/' + QtCore.QDate().currentDate().toString(
