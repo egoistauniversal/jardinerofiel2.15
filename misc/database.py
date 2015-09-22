@@ -699,6 +699,7 @@ class DataBase(QtCore.QObject):
         _dataList = []
         _timeList = []
         _days_string = '-' + str(days) + ' days'
+        _datetime = QtCore.QDateTime()
         try:
             connection = sqlite3.connect(str(self._dbFile.fileName()))
             with connection:
@@ -715,8 +716,6 @@ class DataBase(QtCore.QObject):
         except sqlite3.Error, e:
             self.dbAlertMessageSignal.emit("Error %s:" % e.args[0])
         return _xAxisList, _dataList, _timeList
-
-
 
     # TODO posiblemente borrar este metodo ya que no sirve para nada
     @staticmethod
