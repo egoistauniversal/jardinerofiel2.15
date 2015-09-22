@@ -699,7 +699,6 @@ class DataBase(QtCore.QObject):
         _dataList = []
         _timeList = []
         _days_string = '-' + str(days) + ' days'
-        _datetime = QtCore.QDateTime()
         try:
             connection = sqlite3.connect(str(self._dbFile.fileName()))
             with connection:
