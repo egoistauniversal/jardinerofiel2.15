@@ -34,6 +34,9 @@ class Graphics(QtGui.QWidget):
         # self._canvas.update_figure(sensor_name, sensor_type, days)
 
     def set_axis_data(self, x, y, xdatetime, sensor_name, sensor_type):
+        # print 'X: ', len(x)
+        # print 'Y: ', len(y)
+        # print 'XDateTime: ', len(xdatetime)
         self._canvas.update_figure(x, y, xdatetime, sensor_name, sensor_type)
 
     def set_x_axis_range(self, value):
