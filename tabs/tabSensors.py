@@ -85,6 +85,9 @@ class TabSensors(QtGui.QWidget):
             if sensor_type == '2':
                 _myExternal.sensor_add_second_level_item(item, name, '3', pin, 1)
                 self._myDataBase.sensor_table_insert_row(str(group_name), str(name), '3', str(pin))
+            elif sensor_type == '4':
+                _myExternal.sensor_add_second_level_item(item, name, '5', pin, 1)
+                self._myDataBase.sensor_table_insert_row(str(group_name), str(name), '5', str(pin))
 
     # -------------------------------------Modify---------------------------------------------
 
@@ -118,6 +121,14 @@ class TabSensors(QtGui.QWidget):
                 _myExternal.sensor_modify_second_level_item(index, name, pin)
                 # if _pinStr != pin:
                 # _myExternal.sensor_clear_row_item(index)
+
+            if _typeStr == '4':
+                index = index.parent().child(index.row() + 1, 0)
+                _myExternal.sensor_modify_second_level_item(index, name, pin)
+
+            elif _typeStr == '5':
+                index = index.parent().child(index.row() - 1, 0)
+                _myExternal.sensor_modify_second_level_item(index, name, pin)
 
             self._myDataBase.sensor_table_modify_row(str(_nameStr), str(name), str(pin))
             if _nameStr != name:
@@ -180,6 +191,13 @@ class TabSensors(QtGui.QWidget):
             parent.removeRow(_indexRow)
         elif _typeStr == '3':
             parent.removeRow(_indexRow - 1)
+
+        parent.removeRow(_indexRow)
+        if _typeStr == '4':
+            parent.removeRow(_indexRow)
+        elif _typeStr == '5':
+            parent.removeRow(_indexRow - 1)
+
         # Remove sensor from database
         self._myDataBase.sensor_table_delete_row(str(_nameStr))
         self._serial_clear_pin(_pinStr)
@@ -203,6 +221,13 @@ class TabSensors(QtGui.QWidget):
                 elif _type == '3':
                     index.model().itemFromIndex(index.parent().child(index.row() - 1, 10)).setCheckState(
                         QtCore.Qt.Unchecked)
+
+                if _type == '4':
+                    index.model().itemFromIndex(index.parent().child(index.row() + 1, 10)).setCheckState(
+                        QtCore.Qt.Unchecked)
+                elif _type == '5':
+                    index.model().itemFromIndex(index.parent().child(index.row() - 1, 10)).setCheckState(
+                        QtCore.Qt.Unchecked)
         else:
             index.model().itemFromIndex(index.parent().child(index.row(), 10)).setCheckState(QtCore.Qt.Checked)
             self._myDataBase.sensor_table_modify_active_row(str(_name), 1)
@@ -210,6 +235,11 @@ class TabSensors(QtGui.QWidget):
             if _type == '2':
                 index.model().itemFromIndex(index.parent().child(index.row() + 1, 10)).setCheckState(QtCore.Qt.Checked)
             elif _type == '3':
+                index.model().itemFromIndex(index.parent().child(index.row() - 1, 10)).setCheckState(QtCore.Qt.Checked)
+
+            if _type == '4':
+                index.model().itemFromIndex(index.parent().child(index.row() + 1, 10)).setCheckState(QtCore.Qt.Checked)
+            elif _type == '5':
                 index.model().itemFromIndex(index.parent().child(index.row() - 1, 10)).setCheckState(QtCore.Qt.Checked)
 
     # --------------------------------------- Graphics---------------------------------------------
@@ -254,9 +284,8 @@ class TabSensors(QtGui.QWidget):
         _subMenuAnadir.addAction(_custom.get_sensor_context_menu_name_options(2),
                                  lambda: self._add_second_level_item(index, sensor_type='2'))
 
-        _subMenuAnadir.addAction(_custom.get_sensor_context_menu_name_options(4),)
-
-        _subMenuAnadir.addAction(_custom.get_sensor_context_menu_name_options(5),)
+        _subMenuAnadir.addAction(_custom.get_sensor_context_menu_name_options(4),
+                                 lambda: self._add_second_level_item(index, sensor_type='4'))
 
         _subMenuAnadir.addAction(_custom.get_sensor_context_menu_name_options(6),
                                  lambda: self._add_second_level_item(index, sensor_type='6'))

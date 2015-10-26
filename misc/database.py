@@ -753,7 +753,7 @@ class DataBase(QtCore.QObject):
     def check_file_size(self):
         # print self._dbFile.size()
         # If database size reach a certain limit create a new database file, in this case is 100M
-        if self._dbFile.size() > 100000:
+        if self._dbFile.size() > 10000000:
             self._dbFile.close()
             _auxFile = QtCore.QFile(self._directory.path() + self._fileName)
             _auxFileName = self._directory.path() + '/' + QtCore.QDate().currentDate().toString(
