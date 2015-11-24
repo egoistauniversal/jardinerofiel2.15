@@ -230,7 +230,8 @@ class SecondLevelItemSensorDialog(QtGui.QDialog):
         self._goalValueDoubleSpinBox.setSuffix(_suffix)
 
     def _set_goal_value_spinbox_range(self, sensor_type):
-        _rangeList = [[0.00, 100.00], [0.00, 100.00], [0.00, 100.00], [0.00, 14.00], [0.00, 100.00]]
+        _rangeList = [[0.00, 100.00], [0.00, 100.00], [0.00, 100.00], [0.00, 100.00], [0.00, 100.00], [0, 1],
+                      [0.00, 14.00], [0.00, 100.00]]
         _tuple = _rangeList[int(sensor_type) - 1]
         self._goalValueDoubleSpinBox.setRange(_tuple[0], _tuple[1])
 
@@ -240,7 +241,7 @@ class SecondLevelItemSensorDialog(QtGui.QDialog):
         _degreeChar = QtCore.QChar(0260)
         _degree = QtCore.QString(' C')
         _degree.append(_degreeChar)
-        _suffixList = [_degree, _degree, ' %', ' PH', ' us']
+        _suffixList = [_degree, _degree, ' %', _degree, ' %', ' *', ' PH', ' us']
         return _suffixList[int(sensor_type) - 1]
 
     def _validations(self):

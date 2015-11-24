@@ -404,7 +404,6 @@ class TabSensors(QtGui.QWidget):
     def _save_last_minute(self):
         self.sensorSaveLastMinuteSignal.emit()
         self._myDataBase.check_file_size()
-        # TODO activar este metodo para comprobar el tamano de la base de datos
 
     # -------------------------------------------------------------------------------------------------
 

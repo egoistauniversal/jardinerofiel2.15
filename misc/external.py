@@ -9,6 +9,8 @@ class Generals(QtCore.QObject):
     def get_date_time_state(date_time_on, date_time_off):
         state = '0'
         _currentDateTime = QtCore.QDateTime().currentDateTime()
+        date_time_on.setDate(_currentDateTime.date())
+        date_time_off.setDate(_currentDateTime.date())
         if date_time_on > date_time_off:
             if _currentDateTime < date_time_off:
                 date_time_on = date_time_on.addDays(1)
